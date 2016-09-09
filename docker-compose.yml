@@ -1,0 +1,25 @@
+php:
+  build: .
+  links:
+    - db
+  volumes:
+    - .:/var/www
+nginx:
+  image: nginx:1.9.12
+  links:
+    - php
+  volumes_from:
+    - php
+  volumes:
+    - ./docker/vhost.conf:/etc/nginx/conf.d/default.conf
+  ports:
+    - "80:80"
+db:
+  image: mysql:5.6
+  ports:
+      - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: dorkis
+    MYSQL_USER: dev
+    MYSQL_PASSWORD: d3v
+    MYSQL_DATABASE: dzieciowo_dev
